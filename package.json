@@ -1,0 +1,16 @@
+{
+  "name": "protobuf-toolbelt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/.bin/jest test/**"
+  },
+  "dependencies": {
+    "lodash": "4.17.11",
+    "protocol-buffers-schema": "3.3.2"
+  },
+  "devDependencies": {
+    "jest": "24.8.0"
+  }
+}
