@@ -9,7 +9,6 @@ const testJsbpFileName = `${__dirname}/jspb/messageb.jspb`
 describe('jspbToJson', () => {
   it('reconstructs a message with top level spec', () => {
     const schema = pbschema.parse(fs.readFileSync(testProtoFileName))
-    // console.log(schema.messages[0])
     const topLevelMessage = 'MessageB'
     const jspb = JSON.parse(fs.readFileSync(testJsbpFileName))
     const expectedResult = {
@@ -65,6 +64,34 @@ describe('jspbToJson', () => {
     }
 
     const result = jspbToJson(jspb)
+    expect(result).toEqual(expectedResult)
+  })
+
+  it('skips null fields', () => {
+    const schema = pbschema.parse(fs.readFileSync(testProtoFileName))
+    const topLevelMessage = 'MessageB'
+    const jspb = JSON.parse(fs.readFileSync(testJsbpFileName))
+    const expectedResult = {
+      id: 5,
+      items: [
+        {
+          id: 1,
+          uf_2: {
+            uf_1: 2,
+            uf_3: 'foo'
+          },
+          optional_field: 3,
+          items: ["a", "b", "cd"],
+          uf_5: 42,
+          flag_field: true,
+          choice: 'CHOICE1',
+          other_choice: 'OPTION_2'
+        }
+      ],
+      uf_3: 'baz'
+    }
+
+    const result = jspbToJson(jspb, schema, topLevelMessage, true)
     expect(result).toEqual(expectedResult)
   })
 })

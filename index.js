@@ -28,7 +28,7 @@ function getEnumValue(enumSpec, val) {
  * @param {*} topLevelMessageName top level message. Must be in `schema`. Optional.
  * @param {*} context context to fill.
  */
-function jspbToJson(jspb, schema = undefined, topLevelMessageName = undefined, undefinedFieldPrefix = 'uf', topLevelMessageSpec = undefined, context = {}) {
+function jspbToJson(jspb, schema = undefined, topLevelMessageName = undefined, skipNullFields = false, undefinedFieldPrefix = 'uf', topLevelMessageSpec = undefined, context = {}) {
   if (!Array.isArray(jspb)) {
     // TODO: extract to a separate function that converts types.
     if (topLevelMessageName === 'bool' && jspb !== null) return Boolean(jspb)
@@ -46,10 +46,12 @@ function jspbToJson(jspb, schema = undefined, topLevelMessageName = undefined, u
     const itemIsRepeated = get(itemSpec, 'repeated', false)
 
     const itemValue = itemIsRepeated
-      ? item.map(subitem => jspbToJson(subitem, schema, get(itemSpec, 'type'), undefinedFieldPrefix, topLevelMessageSpec))
-      : jspbToJson(item, schema, get(itemSpec, 'type'), undefinedFieldPrefix, topLevelMessageSpec)
+      ? item.map(subitem => jspbToJson(subitem, schema, get(itemSpec, 'type'), skipNullFields, undefinedFieldPrefix, topLevelMessageSpec))
+      : jspbToJson(item, schema, get(itemSpec, 'type'), skipNullFields, undefinedFieldPrefix, topLevelMessageSpec)
 
     const fieldName = get(itemSpec, 'name', `${undefinedFieldPrefix}_${itemPosition}`)
+
+    if (itemValue === null && skipNullFields) return;
     context[fieldName] = itemValue  
   })
   return context
