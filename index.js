@@ -15,6 +15,7 @@ function getEnumByName(schema, field, name = undefined) {
 }
 
 function getEnumValue(enumSpec, val) {
+  if (val === null) return null;
   const defaultValue = `OPTION_${val}`
   if (isNil(enumSpec)) return defaultValue
   const indexToField = mapValues(groupBy(entries(get(enumSpec, 'values', [])), '1.value'), '0.0')
