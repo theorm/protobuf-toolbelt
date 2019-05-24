@@ -29,7 +29,10 @@ describe('jspbToJson', () => {
           other_choice: 'OPTION_2'
         }
       ],
-      uf_3: 'baz'
+      uf_3: 'baz',
+      foo: {
+        bar: "bar"
+      }
     }
 
     const result = jspbToJson(jspb, schema, topLevelMessage)
@@ -60,7 +63,10 @@ describe('jspbToJson', () => {
           uf_8: 2
         }
       },
-      uf_3: 'baz'
+      uf_3: 'baz',
+      uf_4: {
+        uf_1: "bar"
+      }
     }
 
     const result = jspbToJson(jspb)
@@ -88,7 +94,10 @@ describe('jspbToJson', () => {
           other_choice: 'OPTION_2'
         }
       ],
-      uf_3: 'baz'
+      uf_3: 'baz',
+      foo: {
+        bar: "bar"
+      }
     }
 
     const result = jspbToJson(jspb, schema, topLevelMessage, true)

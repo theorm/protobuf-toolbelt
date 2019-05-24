@@ -17,4 +17,9 @@ message MessageA {
 message MessageB {
   string id = 1;
   repeated MessageA items = 2;
+  MessageC foo = 4;
+  
+  message MessageC {
+    string bar = 1;
+  }
 }

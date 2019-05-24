@@ -46,8 +46,8 @@ function jspbToJson(jspb, schema = undefined, topLevelMessageName = undefined, s
     const itemIsRepeated = get(itemSpec, 'repeated', false)
 
     const itemValue = itemIsRepeated
-      ? item.map(subitem => jspbToJson(subitem, schema, get(itemSpec, 'type'), skipNullFields, undefinedFieldPrefix, topLevelMessageSpec))
-      : jspbToJson(item, schema, get(itemSpec, 'type'), skipNullFields, undefinedFieldPrefix, topLevelMessageSpec)
+      ? item.map(subitem => jspbToJson(subitem, schema, get(itemSpec, 'type'), skipNullFields, undefinedFieldPrefix, messageSpec))
+      : jspbToJson(item, schema, get(itemSpec, 'type'), skipNullFields, undefinedFieldPrefix, messageSpec)
 
     const fieldName = get(itemSpec, 'name', `${undefinedFieldPrefix}_${itemPosition}`)
 
