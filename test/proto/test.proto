@@ -1,10 +1,17 @@
 syntax = "proto3";
 
+enum OptionA {
+  // FIELD_0 = 0;
+  CHOICE1 = 1;
+}
+
 message MessageA {
   string id = 1;
   uint32 optional_field = 3;
   repeated string items = 4;
   bool flag_field = 6;
+  OptionA choice = 7;
+  OptionA other_choice = 8;
 }
 
 message MessageB {

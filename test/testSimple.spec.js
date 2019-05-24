@@ -9,6 +9,7 @@ const testJsbpFileName = `${__dirname}/jspb/messageb.jspb`
 describe('jspbToJson', () => {
   it('reconstructs a message with top level spec', () => {
     const schema = pbschema.parse(fs.readFileSync(testProtoFileName))
+    // console.log(schema.messages[0])
     const topLevelMessage = 'MessageB'
     const jspb = JSON.parse(fs.readFileSync(testJsbpFileName))
     const expectedResult = {
@@ -24,7 +25,9 @@ describe('jspbToJson', () => {
           optional_field: 3,
           items: ["a", "b", "cd"],
           uf_5: 42,
-          flag_field: true
+          flag_field: true,
+          choice: 'CHOICE1',
+          other_choice: 'OPTION_2'
         }
       ],
       uf_3: 'baz'
@@ -53,7 +56,9 @@ describe('jspbToJson', () => {
             uf_3: "cd"
           },
           uf_5: 42,
-          uf_6: 1
+          uf_6: 1,
+          uf_7: 1,
+          uf_8: 2
         }
       },
       uf_3: 'baz'
