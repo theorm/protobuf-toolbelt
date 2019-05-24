@@ -23,7 +23,8 @@ describe('jspbToJson', () => {
           },
           optional_field: 3,
           items: ["a", "b", "cd"],
-          uf_5: 42
+          uf_5: 42,
+          flag_field: true
         }
       ],
       uf_3: 'baz'
@@ -51,7 +52,8 @@ describe('jspbToJson', () => {
             uf_2: "b",
             uf_3: "cd"
           },
-          uf_5: 42
+          uf_5: 42,
+          uf_6: 1
         }
       },
       uf_3: 'baz'

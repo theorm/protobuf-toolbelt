@@ -13,7 +13,11 @@ function getMessageSpecByName(schema, name = undefined) {
  * @param {*} context context to fill.
  */
 function jspbToJson(jspb, schema = undefined, topLevelMessageName = undefined, undefinedFieldPrefix = 'uf', context = {}) {
-  if (!Array.isArray(jspb)) return jspb
+  if (!Array.isArray(jspb)) {
+    // TODO: extract to a separate function that converts types.
+    if (topLevelMessageName === 'bool' && jspb !== null) return Boolean(jspb)
+    return jspb
+  }
 
   const messageSpec = getMessageSpecByName(schema, topLevelMessageName)
   jspb.forEach((item, idx) => {

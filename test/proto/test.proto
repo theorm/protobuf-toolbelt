@@ -4,6 +4,7 @@ message MessageA {
   string id = 1;
   uint32 optional_field = 3;
   repeated string items = 4;
+  bool flag_field = 6;
 }
 
 message MessageB {
