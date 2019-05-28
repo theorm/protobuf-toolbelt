@@ -1,4 +1,6 @@
-const { get, find, isNil, groupBy, mapValues, entries } = require('lodash')
+const {
+  get, find, isNil, groupBy, mapValues, entries, isObject, isArray, concat, flatten
+} = require('lodash')
 
 function getMessageSpecByName(schema, fieldSpec, name = undefined) {
   if (name === undefined) return undefined
@@ -58,7 +60,23 @@ function jspbToJson(jspb, schema = undefined, topLevelMessageName = undefined, s
   return context
 }
 
+function getUndefinedFields(obj, prefix = 'uf_', ctx = []) {
+  if (isArray(obj)) {
+    return flatten(obj.map((f, idx) => getUndefinedFields(f, prefix, concat(ctx, idx))))
+      .filter(o => !isNil(o))
+  } else if (isObject(obj)) {
+    return flatten(entries(obj).map(([k, v]) => {
+      return getUndefinedFields(v, prefix, concat(ctx, k))
+    })).filter(o => !isNil(o))
+  } else {
+    if (ctx.filter(i => String(i).startsWith(prefix)).length > 0) {
+      return { path: ctx, value: obj }
+    }
+  }
+}
+
 
 module.exports = {
-  jspbToJson
+  jspbToJson,
+  getUndefinedFields
 }
