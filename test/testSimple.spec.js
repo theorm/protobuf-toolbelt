@@ -1,7 +1,7 @@
 const pbschema = require('protocol-buffers-schema')
 const fs = require('fs')
 
-const { jspbToJson, getUndefinedFields } = require('..')
+const { jspbToJson, getUndefinedFields, fieldNamesToCamelCase } = require('..')
 
 const testProtoFileName = `${__dirname}/proto/test.proto`
 const testJsbpFileName = `${__dirname}/jspb/messageb.jspb`
@@ -132,6 +132,38 @@ describe('getUndefinedFields', () => {
   it('works', () => {
     const fields = getUndefinedFields(testObject)
     expect(fields[0].path).toEqual(['items', 0, 'uf_2', 'uf_1'])
+    // console.log(JSON.stringify(fields, null, 2))
+  })
+})
+
+describe('fieldNamesToCamelCase', () => {
+  const testObject = {
+    id: 5,
+    items: [
+      {
+        id: 1,
+        uf_2: {
+          uf_1: 2,
+          uf_3: 'foo'
+        },
+        optional_field: 3,
+        items: ["a", "b", "cd"],
+        uf_5: 42,
+        flag_field: true,
+        choice: 'CHOICE1',
+        other_choice: 'OPTION_2'
+      }
+    ],
+    uf_3: 'baz',
+    foo: {
+      bar: "bar"
+    }
+  }
+
+  it('works', () => {
+    const o = fieldNamesToCamelCase(testObject)
+    expect(o.uf_3).toEqual("baz")
+    expect(o.items[0].otherChoice).toEqual("OPTION_2")
     // console.log(JSON.stringify(fields, null, 2))
   })
 })

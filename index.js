@@ -1,5 +1,7 @@
 const {
-  get, find, isNil, groupBy, mapValues, entries, isObject, isArray, concat, flatten
+  get, find, isNil, groupBy, mapValues, 
+  entries, isObject, isArray, concat, 
+  flatten, mapKeys
 } = require('lodash')
 
 function getMessageSpecByName(schema, fieldSpec, name = undefined) {
@@ -75,8 +77,23 @@ function getUndefinedFields(obj, prefix = 'uf_', ctx = []) {
   }
 }
 
+// https://github.com/protobufjs/protobuf.js/blob/e8449c4bf1269a2cc423708db6f0b47a383d33f0/examples/custom-get-set.js#L14-L17
+function toCamelCase(str) {
+  return str.substring(0,1) + str.substring(1).replace(/_([a-z])(?=[a-z]|$)/g, function($0, $1) { return $1.toUpperCase(); });
+}
+
+function fieldNamesToCamelCase(obj) {
+  if (isArray(obj)) {
+    return obj.map(fieldNamesToCamelCase)
+  } else if (isObject(obj)) {
+    return mapValues(mapKeys(obj, (v, k) => toCamelCase(k)), fieldNamesToCamelCase)
+  }
+  return obj
+}
+
 
 module.exports = {
   jspbToJson,
-  getUndefinedFields
+  getUndefinedFields,
+  fieldNamesToCamelCase
 }
